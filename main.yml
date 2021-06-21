@@ -1,0 +1,77 @@
+---
+
+- hosts: localhost 
+  gather_facts: no
+  connection: local
+  collections:
+    - netapp.ontap
+  vars:
+    input: &auth
+      hostname: "{{ hostname }}"
+      username: "{{ user }}"
+      password: "{{ pass }}"
+      
+  tasks:
+#    - name: load vars
+#      include_vars:
+#        dir: basic_vars
+
+    - name: collect live NA facts ONTAP 9.6+  
+      na_ontap_info:
+        state: info
+        https: no
+        http_port: 80
+        <<: *auth
+        gather_subset:
+#           - export_policy_info
+#           - export_rule_info
+    #       - nfs_info
+    #       - cifs_share_info
+    #       - cifs_server_info
+    #       - aggregate_info
+#           - cluster_identity_info
+#           - cluster_node_info
+#           - cluster_peer_info 
+#           - cluster_switch_info
+#           - env_sensors_info
+#           - lun_map_info
+#           - metrocluster_info
+#           - metrocluster_node_info
+#           - net_dev_discovery_info
+#           - net_ifgrp_info
+#           - net_interface_info
+#           - net_port_info
+#           - net_port_broadcast_domain_info
+#           - net_vlan_info
+#           - ontap_version
+#           - service_processor_network_info
+#           - shelf_info
+#           - snapmirror_info
+#           - snapmirror_destination_info
+#           - storage_bridge_info
+#           - subsys_health_info
+#           - sysconfig_info
+#           - sys_cluster_alerts
+           - volume_info
+#           - volume_space_info
+#           - vserver_info
+#           - vserver_peer_info
+#           - ontap_system_version
+      register: ontap_info
+
+    - name: saving facts to vars file   
+      delegate_to: localhost
+      copy:
+#        content: "{{ ontap_info['ontap_info']['volume_info']['techday_root:techday']['volume_export_attributes'].policy }}"
+        content: "{{ ontap_info['ontap_info'] | to_nice_yaml }}" 
+        dest: "./ontap_infos.yml"
+
+####################################################################################################
+#    - name: Capacity report generation 
+#      template:
+#        src: 'templates/tmp.j2'
+#        dest: '{{ report_folder }}/capacity.txt'
+###################################################################################################
+
+...
+
