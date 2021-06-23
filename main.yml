@@ -10,6 +10,8 @@
       hostname: "{{ hostname }}"
       username: "{{ user }}"
       password: "{{ pass }}"
+      https: yes
+      validate_certs: no
       
   tasks:
 #    - name: load vars
@@ -17,10 +19,8 @@
 #        dir: basic_vars
 
     - name: collect live NA facts ONTAP 9.6+  
-      na_ontap_info:
+      netapp.ontap.na_ontap_info:
         state: info
-        https: no
-        http_port: 80
         <<: *auth
         gather_subset:
 #           - export_policy_info
