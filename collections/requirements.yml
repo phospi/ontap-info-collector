@@ -1,0 +1,5 @@
+---
+collections:
+  - name: netapp.ontap
+    version: 21.7.0
+    source: https://galaxy.ansible.com
