@@ -19,7 +19,8 @@
 #        dir: basic_vars
 
     - name: collect live NA facts ONTAP 9.6+  
-      netapp.ontap.na_ontap_info:
+      na_ontap_info:
+      #netapp.ontap.na_ontap_info:
         state: info
         <<: *auth
         gather_subset:
