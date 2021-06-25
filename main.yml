@@ -7,7 +7,7 @@
     - netapp.ontap
   vars:
     input: &auth
-      hostname: "{{ hostname }}"
+      hostname: "{{ ontap_hostname }}"
       username: "{{ user }}"
       password: "{{ pass }}"
       https: yes
